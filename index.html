@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Power BI Portfolio | Financial Controller & BI Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #08090D;
+      --bg2:       #0F1117;
+      --bg3:       #171923;
+      --accent:    #6C63FF;
+      --gold:      #F5A623;
+      --text:      #E8EAF0;
+      --muted:     #7A7F9A;
+      --border:    rgba(108, 99, 255, 0.18);
+      --glass:     rgba(255,255,255,0.04);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 6vw;
+      background: rgba(8,9,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--text);
+    }
+    .logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.85rem; letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 6vw 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; right: -200px;
+      width: 650px; height: 650px;
+      background: radial-gradient(circle, rgba(108,99,255,0.13) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-weight: 700; line-height: 1.08;
+      color: #fff; max-width: 800px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, var(--accent), #A78BFA);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      margin-top: 1.4rem; max-width: 520px;
+      color: var(--muted); font-size: 1rem;
+    }
+
+    /* Live KPI bar — the signature element */
+    .kpi-bar {
+      margin-top: 3.5rem;
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .kpi-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 26px;
+      backdrop-filter: blur(8px);
+      min-width: 140px;
+    }
+    .kpi-card .kpi-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.7rem; font-weight: 700;
+      color: var(--gold);
+    }
+    .kpi-card .kpi-lbl {
+      font-size: 0.72rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .hero-cta {
+      margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn {
+      padding: 12px 28px; border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff; border: none;
+    }
+    .btn-primary:hover { background: #5A52E0; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTION SCAFFOLD ── */
+    section { padding: 90px 6vw; }
+    .section-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700; color: #fff;
+      margin-bottom: 1rem;
+    }
+    .section-sub { color: var(--muted); max-width: 540px; }
+
+    /* ── SKILLS ── */
+    .skills-bg { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem; margin-top: 3rem;
+    }
+    .skill-pill {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px 24px;
+    }
+    .skill-pill .s-icon { font-size: 1.6rem; margin-bottom: 12px; }
+    .skill-pill .s-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600; font-size: 0.95rem; color: #fff;
+      margin-bottom: 6px;
+    }
+    .skill-pill .s-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .tag {
+      background: rgba(108,99,255,0.12);
+      color: #A78BFA; border-radius: 6px;
+      padding: 3px 10px; font-size: 0.72rem;
+      font-weight: 500;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.8rem; margin-top: 3.5rem;
+    }
+    .project-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+    .project-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; overflow: hidden;
+      position: relative;
+    }
+    .project-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .project-thumb .thumb-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      color: var(--muted); font-size: 0.8rem;
+    }
+    .project-body { padding: 22px 24px 26px; }
+    .project-cat {
+      font-size: 0.7rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .project-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem; font-weight: 600; color: #fff;
+      margin-bottom: 10px;
+    }
+    .project-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+    .project-kpis {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+    }
+    .kpi-badge {
+      background: rgba(245,166,35,0.08);
+      border: 1px solid rgba(245,166,35,0.2);
+      color: var(--gold); border-radius: 6px;
+      padding: 4px 12px; font-size: 0.75rem; font-weight: 500;
+    }
+    .project-tools {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px;
+    }
+
+    /* ── ABOUT ── */
+    .about-bg { background: var(--bg2); }
+    .about-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .about-inner p { color: var(--muted); margin-bottom: 1rem; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+    }
+    .stat-box {
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px;
+    }
+    .stat-box .s-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem; font-weight: 700; color: var(--accent);
+    }
+    .stat-box .s-desc { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1.5rem;
+    }
+    .contact-inner .section-title { max-width: 600px; }
+    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 6vw;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      color: var(--muted); font-size: 0.8rem;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 0 6vw;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .about-inner { grid-template-columns: 1fr; gap: 2rem; }
+      nav ul { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── COUNT-UP ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .hero > * { animation: fadeUp 0.6s ease both; }
+    .hero-eyebrow { animation-delay: 0.1s; }
+    .hero h1      { animation-delay: 0.2s; }
+    .hero-sub     { animation-delay: 0.3s; }
+    .kpi-bar      { animation-delay: 0.4s; }
+    .hero-cta     { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">YourName <span>·</span> BI</div>
+  <ul>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Financial Controller & Power BI Developer</p>
+  <h1>Turning financial data<br>into <span class="highlight">clear decisions</span></h1>
+  <p class="hero-sub">
+    I design interactive Power BI dashboards that bridge finance, operations, and strategy — helping companies see the full picture at a glance.
+  </p>
+
+  <!-- Signature element: live KPI strip from real dashboards -->
+  <div class="kpi-bar">
+    <div class="kpi-card">
+      <div class="kpi-val" data-target="9.52" data-suffix="M">0</div>
+      <div class="kpi-lbl">Net Sales YTD</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val" data-target="58.04" data-suffix="%">0</div>
+      <div class="kpi-lbl">Gross Margin</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val" data-target="1470" data-suffix="">0</div>
+      <div class="kpi-lbl">Employees Tracked</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-val" data-target="4" data-suffix=" Dashboards">0</div>
+      <div class="kpi-lbl">Portfolio Projects</div>
+    </div>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-bg">
+  <p class="section-eyebrow">What I do</p>
+  <h2 class="section-title">Core Expertise</h2>
+  <p class="section-sub">A dual skillset that covers both the financial logic and the visual storytelling.</p>
+
+  <div class="skills-grid">
+    <div class="skill-pill">
+      <div class="s-icon">📊</div>
+      <div class="s-title">Power BI Development</div>
+      <div style="color:var(--muted);font-size:0.83rem;">Building interactive reports, KPI dashboards, and automated reporting pipelines.</div>
+      <div class="s-tags">
+        <span class="tag">DAX</span>
+        <span class="tag">Power Query</span>
+        <span class="tag">Data Modeling</span>
+        <span class="tag">M Language</span>
+      </div>
+    </div>
+    <div class="skill-pill">
+      <div class="s-icon">💰</div>
+      <div class="s-title">Financial Controlling</div>
+      <div style="color:var(--muted);font-size:0.83rem;">P&L analysis, budgeting, variance analysis, forecasting, and management reporting.</div>
+      <div class="s-tags">
+        <span class="tag">P&L</span>
+        <span class="tag">EBITDA</span>
+        <span class="tag">FP&A</span>
+        <span class="tag">Budgeting</span>
+      </div>
+    </div>
+    <div class="skill-pill">
+      <div class="s-icon">🛠️</div>
+      <div class="s-title">Tools & Stack</div>
+      <div style="color:var(--muted);font-size:0.83rem;">End-to-end delivery from raw data to boardroom-ready visuals.</div>
+      <div class="s-tags">
+        <span class="tag">Excel</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">SAP</span>
+      </div>
+    </div>
+    <div class="skill-pill">
+      <div class="s-icon">🌍</div>
+      <div class="s-title">Remote & Freelance</div>
+      <div style="color:var(--muted);font-size:0.83rem;">Available for remote engagements with international companies and freelance missions.</div>
+      <div class="s-tags">
+        <span class="tag">English</span>
+        <span class="tag">French</span>
+        <span class="tag">Arabic</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-eyebrow">Portfolio</p>
+  <h2 class="section-title">Power BI Dashboards</h2>
+  <p class="section-sub">Four end-to-end projects covering Finance, HR, Sales, and regional performance intelligence.</p>
+
+  <div class="projects-grid">
+
+    <!-- Project 1: Finance -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <!-- Replace src with your actual screenshot path or Power BI embed -->
+        <div class="thumb-placeholder">📊<span>Finance Dashboard</span></div>
+      </div>
+      <div class="project-body">
+        <p class="project-cat">Financial Controlling</p>
+        <h3 class="project-name">P&L & Financial Performance Dashboard</h3>
+        <p class="project-desc">
+          Multi-year financial reporting dashboard (2023–2025) covering Gross Sales, Net Sales, COGS, OPEX breakdown, EBIT, and EBITDA. Enables quarter-by-quarter comparison with drill-down by cost center and time period.
+        </p>
+        <div class="project-kpis">
+          <span class="kpi-badge">Gross Profit 5.52M</span>
+          <span class="kpi-badge">GM% 58.04%</span>
+          <span class="kpi-badge">EBITDA –4.13M</span>
+        </div>
+        <div class="project-tools">
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">P&L Modeling</span>
+          <span class="tag">OPEX Analysis</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2: HR -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <div class="thumb-placeholder">👥<span>HR Dashboard</span></div>
+      </div>
+      <div class="project-body">
+        <p class="project-cat">Human Resources Analytics</p>
+        <h3 class="project-name">Workforce & Turnover Intelligence Dashboard</h3>
+        <p class="project-desc">
+          Comprehensive HR dashboard tracking 1,470 employees across departments. Covers turnover rate, income by job role, attrition by department, education breakdown, and a job satisfaction matrix — filtered by gender and marital status.
+        </p>
+        <div class="project-kpis">
+          <span class="kpi-badge">1,470 Employees</span>
+          <span class="kpi-badge">16.1% Turnover</span>
+          <span class="kpi-badge">Avg. Age 37</span>
+        </div>
+        <div class="project-tools">
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">HR Analytics</span>
+          <span class="tag">Attrition Modeling</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3: Sales -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <div class="thumb-placeholder">📈<span>Sales Dashboard</span></div>
+      </div>
+      <div class="project-body">
+        <p class="project-cat">Commercial Performance</p>
+        <h3 class="project-name">Net Sales & Margin Analysis Dashboard</h3>
+        <p class="project-desc">
+          Multi-year sales dashboard (2023–2025) with YTD tracking, monthly trends, channel mix (Modern Trade, Traditional Trade, Food Service, E-Commerce), and product-level GM% ranking to identify top and low performers.
+        </p>
+        <div class="project-kpis">
+          <span class="kpi-badge">Net Sales 9.52M</span>
+          <span class="kpi-badge">Volume 455K</span>
+          <span class="kpi-badge">Discount 10.40%</span>
+        </div>
+        <div class="project-tools">
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">Sales Analytics</span>
+          <span class="tag">Channel Mix</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 4: Morocco Regional -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <div class="thumb-placeholder">🗺️<span>Regional Sales Dashboard</span></div>
+      </div>
+      <div class="project-body">
+        <p class="project-cat">Geospatial & Regional Analysis</p>
+        <h3 class="project-name">Morocco Regional Sales Intelligence Dashboard</h3>
+        <p class="project-desc">
+          Regional sales performance dashboard covering 5 Moroccan regions (Casablanca-Settat, Fès-Meknès, Rabat-Salé-Kénitra, L'Oriental, Tanger-Tétouan). Includes payment mode breakdown, customer segment analysis, product profitability, and an interactive geographic map.
+        </p>
+        <div class="project-kpis">
+          <span class="kpi-badge">CA 263K MAD</span>
+          <span class="kpi-badge">Profit 21K MAD</span>
+          <span class="kpi-badge">2,978 Units</span>
+        </div>
+        <div class="project-tools">
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">Power Maps</span>
+          <span class="tag">Geospatial</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ABOUT -->
+<section id="about" class="about-bg">
+  <p class="section-eyebrow">About me</p>
+  <div class="about-inner">
+    <div>
+      <h2 class="section-title">Finance & Data, combined.</h2>
+      <p>I am a Financial Controller and Power BI Developer with hands-on experience designing dashboards that connect raw financial and operational data to strategic decisions.</p>
+      <p>My work covers the full pipeline — from data modeling and DAX calculations to layout and storytelling — so decision-makers always get a clear, reliable view of performance.</p>
+      <p>Open to remote full-time positions and freelance missions with international companies.</p>
+      <div style="margin-top:1.5rem;">
+        <a href="#contact" class="btn btn-primary">Work with me</a>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="s-num">4+</div>
+        <div class="s-desc">Years of experience in Finance & Controlling</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-num">4</div>
+        <div class="s-desc">Power BI dashboards in portfolio</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-num">3</div>
+        <div class="s-desc">Languages: English, French, Arabic</div>
+      </div>
+      <div class="stat-box">
+        <div class="s-num">100%</div>
+        <div class="s-desc">Remote-ready, available worldwide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-eyebrow">Let's connect</p>
+    <h2 class="section-title">Open to Remote & Freelance Opportunities</h2>
+    <p style="color:var(--muted);max-width:480px;text-align:center;">
+      Whether you need a Financial Controller, a Power BI developer, or both — let's talk about how I can help your team make better data-driven decisions.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:your@email.com" class="btn btn-primary">✉️ Email me</a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="https://www.upwork.com/freelancers/yourprofile" target="_blank" class="btn btn-outline">Upwork</a>
+      <a href="https://www.malt.fr/profile/yourprofile" target="_blank" class="btn btn-outline">Malt</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Your Name — Financial Controller & Power BI Developer</span>
+  <span style="color:var(--accent);">Built with Power BI · DAX · Passion for data</span>
+</footer>
+
+<script>
+  // Count-up animation for hero KPIs
+  function countUp(el) {
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const isInt  = Number.isInteger(target);
+    const dur    = 1800;
+    const step   = 16;
+    const steps  = dur / step;
+    let   cur    = 0;
+    const inc    = target / steps;
+    const timer  = setInterval(() => {
+      cur += inc;
+      if (cur >= target) { cur = target; clearInterval(timer); }
+      el.textContent = (isInt ? Math.round(cur) : cur.toFixed(2)) + suffix;
+    }, step);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('[data-target]').forEach(countUp);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(document.querySelector('.kpi-bar'));
+</script>
+
+</body>
+</html>
